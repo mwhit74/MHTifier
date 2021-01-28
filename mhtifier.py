@@ -28,13 +28,15 @@ import os
 import quopri
 import sys
 import argparse
+import pdb
 
-def unpack(mht, fp=None, args=None):
+def unpack(mht, dir_path=None, args=None):
     # Read entire MHT archive -- it's a multipart(/related) message.
     """Parser is "conducive to incremental parsing of email messages, such as 
     would be necessary when reading the text of an email message from a 
     source that can block", so I guess it's more efficient to have it read
      stdin directly, rather than buffering."""
+    #pdb.set_trace()
     if type(mht) == str:
         mht = open(mht, 'rb')
 
@@ -50,8 +52,9 @@ def unpack(mht, fp=None, args=None):
         # String coerced to lower case of the form maintype/subtype, else get_default_type().            
         ct = p.get_content_type() 
         # File path. Expecting root HTML is only part with no location.
-        if fp == None:
-            fp = p.get("content-location") or "index.html" 
+        fp = p.get("content-location") or "index.html" 
+        if dir_path != None:
+            fp = os.path.join(dir_path, fp)
 
         if args != None and args.verbose:
             sys.stderr.write("Writing %s to %s, %d bytes...\n" % (ct, fp, len(p.get_payload())))

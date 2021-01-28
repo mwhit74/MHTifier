@@ -6,7 +6,7 @@ from pathlib import Path
 def main():
 
     mht_root_path = '/media/m/KINGSTON/WorkStuffs/Notebooks/Exports_mht/'
-    html_root_path = '/media/m/KINGSTON/WorkStuffs/Notebooks/Exports_html'
+    html_root_path = '/home/m/test'
 
     for (dirpath, dirnames, filenames) in os.walk(mht_root_path):
         sub_path = dirpath.split('Exports_mht')[1]
@@ -19,12 +19,8 @@ def main():
         for filename in filenames:
             if filename.endswith('mht'):
                 mht_filepath = os.path.join(dirpath, filename)
-                name = Path(filename).stem + '.html'
-                html_filepath = os.path.join(html_path, name)
                 print(mht_filepath)
-                print(html_filepath)
-                mhtifier.unpack(mht_filepath, html_filepath)
-                #inp = input('>>>')
+                mhtifier.unpack(mht_filepath, html_path)
 
 
 
